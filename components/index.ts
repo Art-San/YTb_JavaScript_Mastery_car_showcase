@@ -5,6 +5,7 @@ import Navbar from './Navbar'
 import CustomFilter from './CustomFilter'
 import SearchBar from './SearchBar'
 import SearchManufacturer from './SearchManufacturer'
+import CarCart from './CarCart'
 
 export {
     Hero,
@@ -13,5 +14,6 @@ export {
     Footer,
     CustomFilter,
     SearchBar,
-    SearchManufacturer
+    SearchManufacturer,
+    CarCart
 }
