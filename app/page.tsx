@@ -5,7 +5,7 @@ import { fetchCars } from '@/utils'
 
 export default async function Home() {
     const allCars = await fetchCars()
-    console.log(allCars)
+
     const isDataEmpty =
         !Array.isArray(allCars) || allCars.length < 1 || !allCars
     return (
@@ -19,8 +19,8 @@ export default async function Home() {
                 <div className="home__filters">
                     <SearchBar />
                     <div className="home__filter-container">
-                        {/* <CustomFilter title="fuel" /> */}
-                        {/* <CustomFilter title="year" /> */}
+                        <CustomFilter title="fuel" />
+                        <CustomFilter title="year" />
                     </div>
                 </div>
                 {!isDataEmpty ? (

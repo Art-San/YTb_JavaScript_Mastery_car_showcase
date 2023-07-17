@@ -11,3 +11,18 @@ export async function fetchCars() {
     const result = await response.json()
     return result
 }
+
+export const calculateCarRent = (city_mpg: number, year: number) => {
+    const basePricePerDay = 50 // Базовая стоимость аренды в сутки в долларах
+    const mileageFactor = 0.1 // Дополнительная ставка за милю пробега
+    const ageFactor = 0.05 // Доплата за год возраста автомобиля
+
+    // Рассчитать дополнительную ставку на основе пробега и возраста
+    const mileageRate = city_mpg * mileageFactor
+    const ageRate = (new Date().getFullYear() - year) * ageFactor
+
+    // Рассчитать общую арендную ставку в день
+    const rentalRatePerDay = basePricePerDay + mileageRate + ageRate
+
+    return rentalRatePerDay.toFixed(0)
+}
