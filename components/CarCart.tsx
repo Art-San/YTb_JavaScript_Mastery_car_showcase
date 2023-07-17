@@ -6,11 +6,11 @@ import { useState } from 'react'
 import CarDetails from './CarDetails'
 import CustomButton from './CustomButton'
 
-interface CarCardProps {
+interface ICarCardProps {
     car: ICarsProps
 }
 
-const CarCart = ({ car }: CarCardProps) => {
+const CarCart = ({ car }: ICarCardProps) => {
     const { city_mpg, year, make, model, transmission, drive } = car
     const [isOpen, setIsOpen] = useState(false)
     const carRent = calculateCarRent(city_mpg, year)
@@ -75,11 +75,11 @@ const CarCart = ({ car }: CarCardProps) => {
                     />
                 </div>
             </div>
-            {/* <CarDetails
+            <CarDetails
                 isOpen={isOpen}
                 closeModal={() => setIsOpen(false)}
                 car={car}
-            /> */}
+            />
         </div>
     )
 }
