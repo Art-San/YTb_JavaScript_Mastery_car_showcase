@@ -75,11 +75,11 @@ const CarCart = ({ car }: CarCardProps) => {
                     />
                 </div>
             </div>
-            <CarDetails
+            {/* <CarDetails
                 isOpen={isOpen}
                 closeModal={() => setIsOpen(false)}
                 car={car}
-            />
+            /> */}
         </div>
     )
 }
