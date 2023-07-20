@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import { SearchManufacturer } from './'
+import { useRouter } from 'next/navigation'
 
 const SearchButton = ({ otherClasses }: { otherClasses: string }) => (
   <button type="submit" className={`-ml-3 z-10 ${otherClasses}`}>
@@ -19,15 +20,41 @@ const SearchBar = () => {
   const [manufacturer, setManuFacturer] = useState('')
   const [model, setModel] = useState('')
 
+  const router = useRouter()
+
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (manufacturer.trim() === '' && model.trim() === '') {
       return alert('Please provide some input')
     }
-    //02/21/27
-    // updateSearchParams(model.toLowerCase(), manufacturer.toLowerCase());
+
+    updateSearchParams(model.toLowerCase(), manufacturer.toLowerCase())
   }
+
+  const updateSearchParams = (model: string, manufacturer: string) => {
+    // Создайте новый объект URLSearchParams, используя текущие параметры поиска URL.
+    const searchParams = new URLSearchParams(window.location.search)
+
+    // Обновите или удалите параметр поиска «модель» на основе значения «модель».
+    if (model) {
+      searchParams.set('model', model)
+    } else {
+      searchParams.delete('model')
+    }
+
+    // Обновите или удалите параметр поиска «производитель» на основе значения «производитель».
+    if (manufacturer) {
+      searchParams.set('manufacturer', manufacturer)
+    } else {
+      searchParams.delete('manufacturer')
+    }
+    // Создайте новый путь с обновленными параметрами поиска.
+    const newPathname = `${window.location.pathname}?${searchParams.toString()}`
+
+    router.push(newPathname)
+  }
+
   return (
     <form className="searchbar" onSubmit={handleSearch}>
       <div className="searchbar__item">
