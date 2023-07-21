@@ -10,9 +10,14 @@ export interface ICustomButtonProps {
   isDisabled?: boolean
 }
 
-export interface ISearchManufacturerProps {
-  manufacturer: string
-  setManuFacturer: (manufacturer: string) => void
+// export interface ISearchManufacturerProps {
+//   manufacturer: string
+//   setManuFacturer: (manufacturer: string) => void
+// }
+
+export interface ISearchManuFacturerProps {
+  selected: string
+  setSelected: (selected: string) => void
 }
 
 export interface ICarsProps {
@@ -28,6 +33,13 @@ export interface ICarsProps {
   model: string
   transmission: string
   year: number
+}
+
+export type ICarState = ICarsProps[] & { message?: string }
+
+export interface ISearchBarProps {
+  setManuFacturer: (manufacturer: string) => void
+  setModel: (model: string) => void
 }
 
 export interface IFilterProps {
@@ -47,12 +59,22 @@ export interface IOptionProps {
   value: string
 }
 
-export interface ICustomFilterProps {
-  title: string
+export interface ICustomFilterProps<T> {
   options: IOptionProps[]
+  setFilter: (selected: T) => void
 }
+// export interface ICustomFilterProps {
+//   title: string
+//   options: IOptionProps[]
+// }
 
 export interface IShowMoreProps {
   pageNumber: number
   isNext: boolean
+  setLimit: (limit: number) => void
 }
+
+// export interface IShowMoreProps {
+//   pageNumber: number
+//   isNext: boolean
+// }

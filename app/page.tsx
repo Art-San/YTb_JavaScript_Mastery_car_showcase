@@ -1,55 +1,160 @@
+'use client'
+
 import Image from 'next/image'
-import { CarCart, CustomFilter, Hero, SearchBar } from '@/components'
+import { useState, useEffect } from 'react'
+
 import { fetchCars } from '@/utils'
-import { IHomeProps } from '@/types'
 import { fuels, yearsOfProduction } from '@/constants'
-import ShowMore from '@/components/ShowMore'
+import { ICarState } from '@/types'
+import { Hero, CarCard, ShowMore, SearchBar, CustomFilter } from '@/components'
 
-export default async function Home({ searchParams }: IHomeProps) {
-  const allCars = await fetchCars({
-    manufacturer: searchParams.manufacturer || '',
-    year: searchParams.year || 2022,
-    fuel: searchParams.fuel || '',
-    limit: searchParams.limit || 10,
-    model: searchParams.model || ''
-  })
+export default function Home() {
+  const [allCars, setAllCars] = useState<ICarState>([])
+  const [loading, setLoading] = useState(false)
 
-  const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars
+  // search states
+  const [manufacturer, setManuFacturer] = useState('')
+  const [model, setModel] = useState('')
+
+  // filter state
+  const [fuel, setFuel] = useState('')
+  const [year, setYear] = useState(2022)
+
+  // limit state
+  const [limit, setLimit] = useState(10)
+
+  const getCars = async () => {
+    setLoading(true)
+    try {
+      const result = await fetchCars({
+        manufacturer: manufacturer.toLowerCase() || '',
+        model: model.toLowerCase() || '',
+        fuel: fuel.toLowerCase() || '',
+        year: year || 2022,
+        limit: limit || 10
+      })
+
+      setAllCars(result)
+    } catch {
+      console.error()
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    getCars()
+  }, [fuel, year, limit, manufacturer, model])
+
   return (
     <main className="overflow-hidden">
       <Hero />
+
       <div className="mt-12 padding-x padding-y max-width" id="discover">
         <div className="home__text-container">
           <h1 className="text-4xl font-extrabold">Car Catalogue</h1>
-          <p>Explore the cars you might like</p>
+          <p>Explore out cars you might like</p>
         </div>
+
         <div className="home__filters">
-          <SearchBar />
+          <SearchBar setManuFacturer={setManuFacturer} setModel={setModel} />
+
           <div className="home__filter-container">
-            <CustomFilter title="fuel" options={fuels} />
-            <CustomFilter title="year" options={yearsOfProduction} />
+            <CustomFilter options={fuels} setFilter={setFuel} />
+            <CustomFilter options={yearsOfProduction} setFilter={setYear} />
           </div>
         </div>
-        {!isDataEmpty ? (
+
+        {allCars.length > 0 ? (
           <section>
             <div className="home__cars-wrapper">
-              {allCars?.map((car, i) => (
-                <CarCart key={i} car={car} />
+              {allCars?.map((car, index) => (
+                <CarCard key={`car-${index}`} car={car} />
               ))}
-
-              <ShowMore
-                pageNumber={(searchParams.limit || 10) / 10}
-                isNext={(searchParams.limit || 10) > allCars.length}
-              />
             </div>
+
+            {loading && (
+              <div className="mt-16 w-full flex-center">
+                <Image
+                  src="./loader.svg"
+                  alt="loader"
+                  width={50}
+                  height={50}
+                  className="object-contain"
+                />
+              </div>
+            )}
+
+            <ShowMore
+              pageNumber={limit / 10}
+              isNext={limit > allCars.length}
+              setLimit={setLimit}
+            />
           </section>
         ) : (
-          <div className="home__error-container">
-            <h2 className=" text-black text-xl font-bold">Oops, ho results</h2>
-            <p>{allCars?.message}</p>
-          </div>
+          !loading && (
+            <div className="home__error-container">
+              <h2 className="text-black text-xl font-bold">Oops, no results</h2>
+              <p>{allCars?.message}</p>
+            </div>
+          )
         )}
       </div>
     </main>
   )
 }
+
+// import { CarCart, CustomFilter, Hero, SearchBar } from '@/components'
+// import { fetchCars } from '@/utils'
+// import { IHomeProps } from '@/types'
+// import { fuels, yearsOfProduction } from '@/constants'
+// import ShowMore from '@/components/ShowMore'
+
+// export default async function Home({ searchParams }: IHomeProps) {
+//   const allCars = await fetchCars({
+//     manufacturer: searchParams.manufacturer || '',
+//     year: searchParams.year || 2022,
+//     fuel: searchParams.fuel || '',
+//     limit: searchParams.limit || 10,
+//     model: searchParams.model || ''
+//   })
+
+//   const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars
+//   return (
+//     <main className="overflow-hidden">
+//       <Hero />
+//       <div className="mt-12 padding-x padding-y max-width" id="discover">
+//         <div className="home__text-container">
+//           <h1 className="text-4xl font-extrabold">Car Catalogue</h1>
+//           <p>Explore the cars you might like</p>
+//         </div>
+//         <div className="home__filters">
+//           <SearchBar />
+//           <div className="home__filter-container">
+//             <CustomFilter title="fuel" options={fuels} />
+//             <CustomFilter title="year" options={yearsOfProduction} />
+//           </div>
+//         </div>
+//         {!isDataEmpty ? (
+//           <section>
+//             <div className="home__cars-wrapper">
+//               {allCars?.map((car, i) => (
+//                 <CarCart key={i} car={car} />
+//               ))}
+
+//               <ShowMore
+//                 pageNumber={(searchParams.limit || 10) / 10}
+//                 isNext={(searchParams.limit || 10) > allCars.length}
+//               />
+//             </div>
+//           </section>
+//         ) : (
+//           <div className="home__error-container">
+//             <h2 className=" text-black text-xl font-bold">Oops, ho results</h2>
+//             <p>{allCars?.message}</p>
+//           </div>
+//         )}
+//       </div>
+//     </main>
+//   )
+// }
