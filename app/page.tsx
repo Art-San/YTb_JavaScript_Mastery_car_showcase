@@ -3,6 +3,7 @@ import { CarCart, CustomFilter, Hero, SearchBar } from '@/components'
 import { fetchCars } from '@/utils'
 import { IHomeProps } from '@/types'
 import { fuels, yearsOfProduction } from '@/constants'
+import ShowMore from '@/components/ShowMore'
 
 export default async function Home({ searchParams }: IHomeProps) {
   const allCars = await fetchCars({
@@ -35,6 +36,11 @@ export default async function Home({ searchParams }: IHomeProps) {
               {allCars?.map((car, i) => (
                 <CarCart key={i} car={car} />
               ))}
+
+              <ShowMore
+                pageNumber={(searchParams.limit || 10) / 10}
+                isNext={(searchParams.limit || 10) > allCars.length}
+              />
             </div>
           </section>
         ) : (
