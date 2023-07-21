@@ -41,3 +41,13 @@ export interface IFilterProps {
 export interface IHomeProps {
   searchParams: IFilterProps
 }
+
+export interface IOptionProps {
+  title: string
+  value: string
+}
+
+export interface ICustomFilterProps {
+  title: string
+  options: IOptionProps[]
+}
