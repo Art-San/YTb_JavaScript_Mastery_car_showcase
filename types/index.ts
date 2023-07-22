@@ -10,11 +10,6 @@ export interface ICustomButtonProps {
   isDisabled?: boolean
 }
 
-// export interface ISearchManufacturerProps {
-//   manufacturer: string
-//   setManuFacturer: (manufacturer: string) => void
-// }
-
 export interface ISearchManuFacturerProps {
   selected: string
   setSelected: (selected: string) => void
@@ -63,18 +58,9 @@ export interface ICustomFilterProps<T> {
   options: IOptionProps[]
   setFilter: (selected: T) => void
 }
-// export interface ICustomFilterProps {
-//   title: string
-//   options: IOptionProps[]
-// }
 
 export interface IShowMoreProps {
   pageNumber: number
   isNext: boolean
   setLimit: (limit: number) => void
 }
-
-// export interface IShowMoreProps {
-//   pageNumber: number
-//   isNext: boolean
-// }

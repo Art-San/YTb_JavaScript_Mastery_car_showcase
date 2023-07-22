@@ -5,7 +5,6 @@ import CustomButton from './CustomButton'
 
 const ShowMore = ({ pageNumber, isNext, setLimit }: IShowMoreProps) => {
   const handleNavigation = () => {
-    // Calculate the new limit based on the page number and navigation type
     const newLimit = (pageNumber + 1) * 10
 
     setLimit(newLimit)

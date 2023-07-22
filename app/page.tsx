@@ -12,15 +12,12 @@ export default function Home() {
   const [allCars, setAllCars] = useState<ICarState>([])
   const [loading, setLoading] = useState(false)
 
-  // search states
   const [manufacturer, setManuFacturer] = useState('')
   const [model, setModel] = useState('')
 
-  // filter state
   const [fuel, setFuel] = useState('')
   const [year, setYear] = useState(2022)
 
-  // limit state
   const [limit, setLimit] = useState(10)
 
   const getCars = async () => {
