@@ -4,7 +4,7 @@ export async function fetchCars(filters: IFilterProps) {
   const { manufacturer, year, model, limit, fuel } = filters
 
   const headers = {
-    'X-RapidAPI-Key': process.env.NEXT_PUBLIC_RAPID_API_KEY_ASAVA || '',
+    'X-RapidAPI-Key': 'f1e2a7e825msh0f3b08053979f5dp160532jsn94e8643efaf5',
     'X-RapidAPI-Host': 'cars-by-api-ninjas.p.rapidapi.com'
   }
 
@@ -36,16 +36,12 @@ export const generateCarImageUrl = (car: ICarsProps, angle?: string) => {
 
   const { make, year, model } = car
 
-  url.searchParams.append(
-    'customer',
-    process.env.NEXT_PUBLIC_IMAGIN_API_KEY || ''
-  )
+  url.searchParams.append('customer', 'hrjavascript-mastery')
   url.searchParams.append('make', make)
   url.searchParams.append('modelFamily', model.split(' ')[0])
   url.searchParams.append('zoomType', 'fullscreen')
   url.searchParams.append('modelYear', `${year}`)
   url.searchParams.append('angle', `${angle}`)
-  console.log(`${url}`)
   return `${url}`
 }
 
